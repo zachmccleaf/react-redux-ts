@@ -32,18 +32,16 @@ export const todoSlice = createSlice({
             return state;
         }, 
         removeTodo: (state, action) => {
-            var index = state.todos.map(x => {
-                return x.id;
-            }).indexOf(action.payload);
-            state.todos.splice(index, 1);
+            const test = state.todos.filter((item) => item.id != action.payload);
+            console.log("test", JSON.stringify(test));
+            
+            state.todos.filter((item) => item.id != action.payload);
             return state;
         }, 
         updateTodo: (state, action) => {
             var index = state.todos.map(x => {
                 return x.id;
             }).indexOf(action.payload.id);
-            console.log("currentState", JSON.stringify(state.todos[index]));
-            console.log("nextState", action.payload);
             state.todos[index] = action.payload;
             return state;
         }
