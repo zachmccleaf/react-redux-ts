@@ -29,17 +29,17 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     }
 
     const handleInputChange = (todo: string) => {
-        console.log(todo);
         setCurrentTodo({
             ...props.todo,
+            color: currentTodo?.color,
             message: todo,
         });
-        console.log(currentTodo);
     }
 
     const handleColorChange = (color: string) => {
         setCurrentTodo({
             ...props.todo,
+            message: currentTodo!.message,
             color: color as TodoColors,
         });
     }
@@ -54,9 +54,10 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
                     <button onClick={() => handleSaveClick()}>
                         Save
                     </button>
-                    <select onChange={(e) => handleColorChange(e.target.value)}>
+                    <select onChange={(e) => handleColorChange(e.target.value)} value={currentTodo?.color}>
+                        <option>Select Color</option>
                         {Object.keys(TodoColors).map((color, index) => {
-                            return <option key={index} style={{color: color}}>{color}</option>
+                            return <option key={index}>{color}</option>
                         })}
                     </select>
                 </div>

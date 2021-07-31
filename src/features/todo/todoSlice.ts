@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import TodoListItem from "./components/TodoListItem";
 
 export enum TodoColors {
     Red = "red",
@@ -32,17 +33,16 @@ export const todoSlice = createSlice({
             return state;
         }, 
         removeTodo: (state, action) => {
-            const test = state.todos.filter((item) => item.id != action.payload);
-            console.log("test", JSON.stringify(test));
-            
-            state.todos.filter((item) => item.id != action.payload);
+            state.todos = state.todos.filter((item) => item.id != action.payload);
             return state;
         }, 
         updateTodo: (state, action) => {
-            var index = state.todos.map(x => {
-                return x.id;
-            }).indexOf(action.payload.id);
-            state.todos[index] = action.payload;
+            state.todos.map(todo => {
+                if (todo.id === action.payload.id) {
+                    todo.message = action.payload.message;
+                    todo.color = action.payload.color;
+                }
+            })
             return state;
         }
     }
