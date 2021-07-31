@@ -1,0 +1,39 @@
+.todoItem {
+    position: relative;
+    padding: 20px;
+    border-bottom: 1px solid black;
+}
+
+.todoItem:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.todoItemActions {
+    position: absolute;
+    right: 0;
+    top: 20px;
+}
+
+.todoItemMessage {
+    padding-right: 100px;
+}
+
+.todoItemActionButton {
+    background: transparent;
+    border: none;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: .06rem;
+    border-bottom: 1px solid #FF5733;
+    margin-right: 10px;
+}
+
+.todoItemActionSelect {
+    margin-right: 10px;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: .06rem;
+    border: none;
+}

@@ -1,0 +1,43 @@
+.todo {
+    padding: 20px 0;
+    margin: 20px 0;
+}
+
+.todoButton {
+    text-transform: uppercase;
+    position: relative;
+    background: transparent;
+    border: none;
+    overflow: hidden;
+    margin-left: 10px;
+    width: auto;
+    padding: 12px 0;
+    float: right;
+}
+
+.todoInput {
+    width: 86%;
+    font-size: 20px;
+    padding: 8px 6px;
+}
+
+.todoButton:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%; 
+    height: 4px; 
+    background: #FF5733;
+    left: -100%;
+    transition: all .6s;
+}
+
+.todoButton:hover:after {
+    transform: translateX(100%);
+}
+
+.todoList {
+    font-size: 20px;
+    padding: 8px 6px;
+    list-style: none;
+}

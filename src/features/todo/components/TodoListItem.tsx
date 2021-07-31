@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { preProcessFile } from "typescript";
 import { useAppDispatch } from "../../../app/hooks";
 import { removeTodo, TodoColors, TodoItem, updateTodo } from "../todoSlice";
+import styles from './TodoListItem.module.css'; 
 
 export interface TodoListItemProps {
     todo: TodoItem;
@@ -37,9 +37,10 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     }
 
     const handleColorChange = (color: string) => {
+        const message = currentTodo?.message ? currentTodo.message : props.todo.message;
         setCurrentTodo({
             ...props.todo,
-            message: currentTodo!.message,
+            message: message,
             color: color as TodoColors,
         });
     }
@@ -48,23 +49,23 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
         if (isEditing) {
             return(
                 <div>
-                    <button onClick={() => dispatch(removeTodo(props.todo.id))}>
-                        Remove
-                    </button>
-                    <button onClick={() => handleSaveClick()}>
-                        Save
-                    </button>
-                    <select onChange={(e) => handleColorChange(e.target.value)} value={currentTodo?.color}>
+                    <select className={styles.todoItemActionSelect} onChange={(e) => handleColorChange(e.target.value)} value={currentTodo?.color}>
                         <option>Select Color</option>
                         {Object.keys(TodoColors).map((color, index) => {
                             return <option key={index}>{color}</option>
                         })}
                     </select>
+                    <button className={styles.todoItemActionButton} onClick={() => dispatch(removeTodo(props.todo.id))}>
+                        Remove
+                    </button>
+                    <button className={styles.todoItemActionButton} onClick={() => handleSaveClick()}>
+                        Save
+                    </button>
                 </div>
             );
         } else {
             return(
-                <button onClick={() => handleEditClick()}>
+                <button className={styles.todoItemActionButton} onClick={() => handleEditClick()}>
                     Edit
                 </button>
             );
@@ -74,23 +75,23 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     const setMessage = (todo: TodoItem) => {
         if (isEditing) {
             return(
-                <div>
-                    <input onChange={(e) => handleInputChange(e.target.value)} value={currentTodo?.message ? currentTodo?.message : props.todo.message} />
-                </div>
+                <input onChange={(e) => handleInputChange(e.target.value)} value={currentTodo?.message ? currentTodo?.message : props.todo.message} />
             );
         } else {
             return(
-                <div>
-                    <p>{todo.message}</p>
-                </div>
+                <p>{todo.message}</p>
             );
         }
     }
 
     return (
-        <li key={props.todo.id} style={{color: props.todo.color}}>
-            {setMessage(props.todo)}
-            {setActions()}
+        <li key={props.todo.id} style={{color: props.todo.color}} className={styles.todoItem}>
+            <div className={styles.todoItemMessage}>
+                {setMessage(props.todo)}
+            </div>
+            <div className={styles.todoItemActions}>
+                {setActions()}
+            </div>
        </li>
     );
 }

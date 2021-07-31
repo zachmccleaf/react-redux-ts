@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import TodoListItem from "./components/TodoListItem";
 import { addTodo, selectTodo, TodoItem } from "./todoSlice";
+import styles from './Todo.module.css'; 
 
 export interface TodoProps {
     isEditing?: boolean;
@@ -30,11 +31,11 @@ const Todo: React.FunctionComponent<TodoProps> = (
     })
 
     return (
-        <div>
-            <input onChange={(e) => handleInputChange(e.target.value)} type="text" />
-            <button onClick={() => dispatch(addTodo(currentTodo))}>Add Todo</button>
+        <div className={styles.todo}>
+            <input className={styles.todoInput} onChange={(e) => handleInputChange(e.target.value)} type="text" />
+            <button className={styles.todoButton} onClick={() => dispatch(addTodo(currentTodo))}>Add Todo</button>
             <div>
-                <ul>
+                <ul className={styles.todoList}>
                     {todoList}
                 </ul>
             </div>
