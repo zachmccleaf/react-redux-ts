@@ -24,9 +24,9 @@ const Todo: React.FunctionComponent<TodoProps> = (
         setCurrentTodo(todoItem);
     }
 
-    const todoList =  todos.map((todo: TodoItem) => {
+    const todoList =  todos.map((todo: TodoItem, index) => {
         return (
-            <TodoListItem todo={todo} />
+            <TodoListItem key={index} todo={todo} />
         );
     })
 

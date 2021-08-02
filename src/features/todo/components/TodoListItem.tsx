@@ -13,7 +13,10 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState<TodoItem>();
 
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch(); 
+
+    const todoListItemClassName = props.todo.isComplete ? styles.todoItemComplete : styles.todoItem;
+    console.log(todoListItemClassName);
 
     const handleEditClick = () => {
         setIsEditing(!isEditing);
@@ -45,6 +48,16 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
         });
     }
 
+    const handleCheckboxClick = (isComplete: boolean) => {
+        const message = currentTodo?.message ? currentTodo.message : props.todo.message;
+        dispatch(updateTodo({
+            ...props.todo,
+            message: message,
+            color: currentTodo?.color,
+            isComplete: isComplete,
+        }));
+    }
+
     const setActions = () => {
         if (isEditing) {
             return(
@@ -65,9 +78,11 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
             );
         } else {
             return(
-                <button className={styles.todoItemActionButton} onClick={() => handleEditClick()}>
-                    Edit
-                </button>
+                <div>
+                    <button className={styles.todoItemActionButton} onClick={() => handleEditClick()}>
+                        Edit
+                    </button>
+                </div>
             );
         }
     }
@@ -85,7 +100,8 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     }
 
     return (
-        <li key={props.todo.id} style={{color: props.todo.color}} className={styles.todoItem}>
+        <li key={props.todo.id} style={{color: props.todo.color}} className={todoListItemClassName}>
+            <input className={styles.todoItemCheckbox} type="checkbox" onChange={(e) => handleCheckboxClick(e.target.checked)} />
             <div className={styles.todoItemMessage}>
                 {setMessage(props.todo)}
             </div>

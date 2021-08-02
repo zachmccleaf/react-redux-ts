@@ -1,13 +1,33 @@
 .todoItem {
     position: relative;
-    padding: 20px;
+    padding: 20px 20px 20px 70px;
     border-bottom: 1px solid black;
+}
+
+.todoItemComplete {
+    position: relative;
+    padding: 20px 20px 20px 70px;
+    border-bottom: 1px solid black;
+}
+
+.todoItemComplete p {
+    text-decoration: line-through;
+    opacity: .4;
 }
 
 .todoItem:after {
     content: "";
     clear: both;
     display: table;
+}
+
+.todoItemCheckbox {
+    position: absolute;
+    left: 20px;
+    top: 50%; 
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
 }
 
 .todoItemActions {

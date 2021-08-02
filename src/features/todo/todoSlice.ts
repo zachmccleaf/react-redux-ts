@@ -14,6 +14,7 @@ export interface TodoItem {
     message: string;
     id: string;
     color?: TodoColors;
+    isComplete?: boolean;
 }
 
 export interface TodoState {
@@ -41,6 +42,7 @@ export const todoSlice = createSlice({
                 if (todo.id === action.payload.id) {
                     todo.message = action.payload.message;
                     todo.color = action.payload.color;
+                    todo.isComplete = action.payload.isComplete;
                 }
             })
             return state;
