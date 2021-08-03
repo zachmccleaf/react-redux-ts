@@ -19,7 +19,7 @@ const Todo: React.FunctionComponent<TodoProps> = (
     const handleInputChange = (todo: string) => {
         const todoItem = {
             message: todo,
-            id: Math.random().toString(36).substring(7),
+            id: guidGenerator(),
         }
         setCurrentTodo(todoItem);
     }
@@ -29,6 +29,13 @@ const Todo: React.FunctionComponent<TodoProps> = (
             <TodoListItem key={index} todo={todo} />
         );
     })
+
+    const guidGenerator = () => {
+        var S4 = function() {
+           return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        };
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
 
     return (
         <div className={styles.todo}>

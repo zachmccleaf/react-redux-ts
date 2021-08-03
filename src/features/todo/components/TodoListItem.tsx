@@ -11,37 +11,42 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     props: TodoListItemProps
 ) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [currentTodo, setCurrentTodo] = useState<TodoItem>();
+    const [activeTodo, setActiveTodo] = useState<TodoItem>();
 
     const dispatch = useAppDispatch(); 
 
     const todoListItemClassName = props.todo.isComplete ? styles.todoItemComplete : styles.todoItem;
-    console.log(todoListItemClassName);
 
     const handleEditClick = () => {
         setIsEditing(!isEditing);
     }
 
     const handleSaveClick = () => {
+        setIsEditing(false);
+        const message = activeTodo?.message ? activeTodo.message : props.todo.message;
         dispatch(updateTodo({
             ...props.todo,
-            message: currentTodo?.message,
-            color: currentTodo?.color,
+            message: message,
+            color: activeTodo?.color,
         }));
-        setIsEditing(!isEditing);
+    }
+
+    const handleRemoveClick = (id: string) => {
+        setIsEditing(false);
+        dispatch(removeTodo(id));
     }
 
     const handleInputChange = (todo: string) => {
-        setCurrentTodo({
+        setActiveTodo({
             ...props.todo,
-            color: currentTodo?.color,
+            color: activeTodo?.color,
             message: todo,
         });
     }
 
     const handleColorChange = (color: string) => {
-        const message = currentTodo?.message ? currentTodo.message : props.todo.message;
-        setCurrentTodo({
+        const message = activeTodo?.message ? activeTodo.message : props.todo.message;
+        setActiveTodo({
             ...props.todo,
             message: message,
             color: color as TodoColors,
@@ -49,11 +54,11 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     }
 
     const handleCheckboxClick = (isComplete: boolean) => {
-        const message = currentTodo?.message ? currentTodo.message : props.todo.message;
+        const message = activeTodo?.message ? activeTodo.message : props.todo.message;
         dispatch(updateTodo({
             ...props.todo,
             message: message,
-            color: currentTodo?.color,
+            color: activeTodo?.color,
             isComplete: isComplete,
         }));
     }
@@ -62,13 +67,13 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
         if (isEditing) {
             return(
                 <div>
-                    <select className={styles.todoItemActionSelect} onChange={(e) => handleColorChange(e.target.value)} value={currentTodo?.color}>
+                    <select className={styles.todoItemActionSelect} onChange={(e) => handleColorChange(e.target.value)} value={activeTodo?.color}>
                         <option>Select Color</option>
                         {Object.keys(TodoColors).map((color, index) => {
                             return <option key={index}>{color}</option>
                         })}
                     </select>
-                    <button className={styles.todoItemActionButton} onClick={() => dispatch(removeTodo(props.todo.id))}>
+                    <button className={styles.todoItemActionButton} onClick={() => handleRemoveClick(props.todo.id)}>
                         Remove
                     </button>
                     <button className={styles.todoItemActionButton} onClick={() => handleSaveClick()}>
@@ -90,7 +95,7 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     const setMessage = (todo: TodoItem) => {
         if (isEditing) {
             return(
-                <input onChange={(e) => handleInputChange(e.target.value)} value={currentTodo?.message ? currentTodo?.message : props.todo.message} />
+                <input onChange={(e) => handleInputChange(e.target.value)} value={activeTodo?.message ? activeTodo?.message : props.todo.message} />
             );
         } else {
             return(
