@@ -3,6 +3,16 @@
     margin: 20px 0;
 }
 
+.todoFooter {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: gray;
+    padding: 20px;
+}
+
 .todoButton {
     text-transform: uppercase;
     position: relative;

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import { removeTodo, TodoColors, TodoItem, updateTodo } from "../todoSlice";
+import { TodoColors, TodoItem, updateTodo } from "../todoSlice";
 import styles from './TodoListItem.module.css'; 
 
 export interface TodoListItemProps {
     todo: TodoItem;
+    deleteTodo: (id: string) => void;
+    updateTodo: (todo: TodoItem) => void;
 }
 
 const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
@@ -23,17 +25,13 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
 
     const handleSaveClick = () => {
         setIsEditing(false);
-        const message = activeTodo?.message ? activeTodo.message : props.todo.message;
-        dispatch(updateTodo({
-            ...props.todo,
-            message: message,
-            color: activeTodo?.color,
-        }));
+        console.log(activeTodo);
+        props.updateTodo(activeTodo as TodoItem);
     }
 
     const handleRemoveClick = (id: string) => {
         setIsEditing(false);
-        dispatch(removeTodo(id));
+        props.deleteTodo(id);
     }
 
     const handleInputChange = (todo: string) => {
@@ -73,10 +71,10 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
                             return <option key={index}>{color}</option>
                         })}
                     </select>
-                    <button className={styles.todoItemActionButton} onClick={() => handleRemoveClick(props.todo.id)}>
+                    <button className={styles.todoItemActionButton} onClick={() => handleRemoveClick(props.todo._id!)}>
                         Remove
                     </button>
-                    <button className={styles.todoItemActionButton} onClick={() => handleSaveClick()}>
+                    <button className={styles.todoItemActionButton} onClick={handleSaveClick}>
                         Save
                     </button>
                 </div>
@@ -105,7 +103,7 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     }
 
     return (
-        <li key={props.todo.id} style={{color: props.todo.color}} className={todoListItemClassName}>
+        <li key={props.todo._id} style={{color: props.todo.color}} className={todoListItemClassName}>
             <input className={styles.todoItemCheckbox} type="checkbox" onChange={(e) => handleCheckboxClick(e.target.checked)} />
             <div className={styles.todoItemMessage}>
                 {setMessage(props.todo)}
