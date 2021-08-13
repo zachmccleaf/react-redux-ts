@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAppDispatch } from "../../../app/hooks";
-import { TodoColors, TodoItem, updateTodo } from "../todoSlice";
+import { TodoColors } from "../../../enums/TodoColors";
+import { TodoItem } from "../../../models/TodoItem";
 import styles from './TodoListItem.module.css'; 
 
 export interface TodoListItemProps {
@@ -15,8 +15,6 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     const [isEditing, setIsEditing] = useState(false);
     const [activeTodo, setActiveTodo] = useState<TodoItem>();
 
-    const dispatch = useAppDispatch(); 
-
     const todoListItemClassName = props.todo.isComplete ? styles.todoItemComplete : styles.todoItem;
 
     const handleEditClick = () => {
@@ -25,7 +23,6 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
 
     const handleSaveClick = () => {
         setIsEditing(false);
-        console.log(activeTodo);
         props.updateTodo(activeTodo as TodoItem);
     }
 
@@ -52,13 +49,15 @@ const TodoListItem: React.FunctionComponent<TodoListItemProps> = (
     }
 
     const handleCheckboxClick = (isComplete: boolean) => {
-        const message = activeTodo?.message ? activeTodo.message : props.todo.message;
-        dispatch(updateTodo({
-            ...props.todo,
-            message: message,
-            color: activeTodo?.color,
-            isComplete: isComplete,
-        }));
+        // update todo
+
+        // const message = activeTodo?.message ? activeTodo.message : props.todo.message;
+        // dispatch(updateTodo({
+        //     ...props.todo,
+        //     message: message,
+        //     color: activeTodo?.color,
+        //     isComplete: isComplete,
+        // }));
     }
 
     const setActions = () => {

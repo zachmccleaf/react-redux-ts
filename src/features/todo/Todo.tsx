@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TodoListItem from "./components/TodoListItem";
-import { TodoItem } from "./todoSlice";
 import styles from './Todo.module.css'; 
 import axios from "axios";
+import { TodoItem } from "../../models/TodoItem";
 
 export interface TodoProps {
 }
@@ -41,7 +41,6 @@ const Todo: React.FunctionComponent<TodoProps> = (
     };
 
     const updateData = (todo: TodoItem) => {
-        console.log('update', todo);
         const updateUrl = `http://localhost:8080/api/todos/${todo._id}`;
         axios
             .put(updateUrl, todo)
@@ -89,9 +88,6 @@ const Todo: React.FunctionComponent<TodoProps> = (
                             })
                     }
                 </ul>
-            </div>
-            <div className={styles.todoFooter}>
-                <button>Save</button>
             </div>
         </div>
     );
